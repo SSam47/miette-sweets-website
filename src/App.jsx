@@ -185,6 +185,7 @@ export default function App() {
         className={`floating-hover-image ${hoverWordCoords ? 'is-visible' : ''}`}
         style={hoverWordCoords ? { left: hoverWordCoords.x, top: hoverWordCoords.y } : {}}
         alt=""
+        loading="lazy"
       />
 
       <header style={{
@@ -216,6 +217,7 @@ export default function App() {
                 {heroImages.map((src, index) => (
                   <img 
                     key={src} src={src} alt="Miette Sweets"
+                    loading={index === 0 ? "eager" : "lazy"}
                     style={{
                       position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1,
                       opacity: currentSlide === index ? 1 : 0,
@@ -310,7 +312,7 @@ export default function App() {
                       <Reveal key={i} className={`reveal reveal-delay-${i % 3 + 1}`}>
                         <div data-cursor="view" onClick={() => setSelectedMedia({ src, label: 'Dessert creation' })}>
                           <div className="shape-arch" style={{ paddingBottom: '130%', position: 'relative', marginBottom: '2rem' }}>
-                            <video muted loop playsInline preload="metadata" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()}><source src={src} type="video/mp4" /></video>
+                            <video muted loop playsInline preload="none" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()}><source src={src} type="video/mp4" /></video>
                           </div>
                           <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Dessert Creation</h3>
                           <span style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>View creation</span>
@@ -335,7 +337,7 @@ export default function App() {
                   </div>
                   <Reveal className="reveal-scale" style={{ flex: '1 1 500px', position: 'relative' }}>
                     <div className="shape-arch" style={{ paddingBottom: '140%', position: 'relative' }}>
-                      <img src="/images/pexels-valeriya-7474225.jpg" alt="Event setup" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src="/images/pexels-valeriya-7474225.jpg" alt="Event setup" loading="lazy" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   </Reveal>
                 </div>
@@ -408,11 +410,48 @@ export default function App() {
             <Reveal className="reveal reveal-delay-1">
               <a href="#" onClick={(e) => handleWhatsAppClick(e, 'I would like to order handmade sweets.')} className="button-primary shape-pill" style={{ backgroundColor: 'var(--butter)', color: '#1A1212' }}>Order on WhatsApp</a>
             </Reveal>
+
+            <Reveal className="reveal reveal-delay-2">
+              <div style={{ marginTop: '6rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <img src="/images/miette logo.jpeg" alt="Miette Logo" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', opacity: 0.9, marginBottom: '2rem' }} />
+                <p style={{ fontSize: '0.85rem', opacity: 0.6, letterSpacing: '0.05em' }}>© {new Date().getFullYear()} Miette. Handmade sweets and marzipan art.</p>
+                <p style={{ fontSize: '0.75rem', opacity: 0.4, marginTop: '1rem' }}>Website by wavebuild.net</p>
+              </div>
+            </Reveal>
           </footer>
         </main>
       </div>
 
       <a href="#" onClick={(e) => handleWhatsAppClick(e, 'I would like to order handmade sweets.')} className="whatsapp-fixed" aria-label="Order on WhatsApp"><WhatsAppIcon /></a>
+
+      {/* Scroll to Top Button */}
+      <button 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        style={{
+          position: 'fixed',
+          bottom: '6rem',
+          right: '2rem',
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          backgroundColor: 'var(--bg-color)',
+          color: 'var(--text-color)',
+          border: '1px solid rgba(100,100,100,0.2)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'none', /* For custom cursor */
+          zIndex: 90,
+          opacity: isScrolled ? 1 : 0,
+          transform: isScrolled ? 'translateY(0)' : 'translateY(20px)',
+          pointerEvents: isScrolled ? 'auto' : 'none',
+          transition: 'all 0.4s ease',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }}
+        aria-label="Scroll to top"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      </button>
 
       {/* Modal Viewer */}
       {selectedMedia && (
