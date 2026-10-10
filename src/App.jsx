@@ -290,8 +290,13 @@ export default function App() {
                         <text fill="var(--text-color)" fontSize="18" fontWeight="600" letterSpacing="0.1em"><textPath href="#curve" startOffset="0%">HANDMADE WITH CARE · LEBANON ·</textPath></text>
                       </svg>
                     </div>
-                    <div className="shape-arch" style={{ paddingBottom: '140%', position: 'relative' }}>
-                      <video autoPlay muted loop playsInline style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+                    <div 
+                      className="shape-arch" 
+                      style={{ paddingBottom: '140%', position: 'relative', cursor: 'none' }}
+                      data-cursor="view"
+                      onClick={() => setSelectedMedia({ src: "/Videos/miette.sweets_1790953574_3999130228707421038_310794760.mp4", label: 'Story video' })}
+                    >
+                      <video autoPlay muted loop playsInline style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
                         <source src="/Videos/miette.sweets_1790953574_3999130228707421038_310794760.mp4" type="video/mp4" />
                       </video>
                     </div>
@@ -312,7 +317,7 @@ export default function App() {
                       <Reveal key={i} className={`reveal reveal-delay-${i % 3 + 1}`}>
                         <div data-cursor="view" onClick={() => setSelectedMedia({ src, label: 'Dessert creation' })}>
                           <div className="shape-arch" style={{ paddingBottom: '130%', position: 'relative', marginBottom: '2rem' }}>
-                            <video muted loop playsInline preload="none" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()}><source src={src} type="video/mp4" /></video>
+                            <video muted loop playsInline preload="metadata" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} onMouseOver={e => e.target.play()} onMouseOut={e => e.target.pause()}><source src={src} type="video/mp4" /></video>
                           </div>
                           <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Dessert Creation</h3>
                           <span style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>View creation</span>
@@ -455,8 +460,8 @@ export default function App() {
 
       {/* Modal Viewer */}
       {selectedMedia && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0, 0.95)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(5px)' }} onClick={closeModal}>
-          <button style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: 'white', zIndex: 1001 }} onClick={closeModal}><XIcon size={32} /></button>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0, 0.95)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(5px)' }} onClick={() => setSelectedMedia(null)}>
+          <button style={{ position: 'absolute', top: '2rem', right: '2rem', background: 'none', border: 'none', color: 'white', zIndex: 1001 }} onClick={() => setSelectedMedia(null)}><XIcon size={32} /></button>
           <div className="shape-arch" style={{ width: '90%', maxWidth: '600px', backgroundColor: 'var(--bg-color)', padding: '1rem', paddingBottom: '2rem' }} onClick={e => e.stopPropagation()}>
             <video autoPlay muted loop controls playsInline style={{ width: '100%', borderRadius: '180px 180px 0 0' }}><source src={selectedMedia.src} type="video/mp4" /></video>
           </div>
